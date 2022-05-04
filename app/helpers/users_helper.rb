@@ -103,9 +103,9 @@ module UsersHelper
   # Retorna os últimos contatos do usuário.
   def last_contacts(user)
     if current_user == user
-      contacts = user.friends.page(params[:page]).per(8)
+      contacts = Kaminari.paginate_array(user.friends.reverse).page(params[:page]).per(8)
     else
-      contacts = user.friends_not_in_common_with(current_user).page(params[:page]).per(4)
+      contacts = Kaminari.paginate_array(user.friends_not_in_common_with(current_user).reverse).page(params[:page]).per(4)
     end
 
     contacts
