@@ -17,12 +17,13 @@
       <%= f.label :avatar, "Foto do seu perfil" %>
     </div>
     <div class="controls span6">
-      <%= f.file_field :avatar %>
+      <%= f.file_field :avatar, :class => "avatar_preview" %>
       <%= concave_errors_for(f.object, :avatar) %>
       <%= image_tag user.avatar.url(:thumb_160), :size => "160x160",
         :class => "form-config-avatar",
         :title => user.display_name,
-        :alt => user.display_name %>
+        :alt => user.display_name, 
+        :id => "avatar-preview" %>
     </div>
   </div>
 
@@ -200,4 +201,22 @@
   <div class="content-section clearfix">
     <%= f.submit t(:save_changes), :class => "button-primary pull-right" %>
   </div>
+
+  <script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();            
+          reader.onload = function (e) {
+              $(document.getElementById("avatar-preview")).attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $(".avatar_preview").change(function(){
+        readURL(this);
+    });
+  </script>
+  
 <% end %>
